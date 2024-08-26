@@ -1,0 +1,4 @@
+name: WizardStaffs
+version: '${project.version}'
+main: org.randomlima.wizardstaffs.WizardStaffs
+api-version: '1.20'
