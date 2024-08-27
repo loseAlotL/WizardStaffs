@@ -2,3 +2,10 @@ name: WizardStaffs
 version: '${project.version}'
 main: org.randomlima.wizardstaffs.WizardStaffs
 api-version: '1.20'
+commands:
+  wsreload:
+    permission: ws.admin
+    usage: /<command>
+  wsgetstaff:
+    permission: ws.admin
+    usage: /<command>
