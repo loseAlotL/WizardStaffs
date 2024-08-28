@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WizardStaffs:jar">
+    <output-path>$USER_HOME$/Desktop/Paper Server/plugins</output-path>
+    <root id="archive" name="WizardStaffs.jar">
+      <element id="module-output" name="WizardStaffs" />
+    </root>
+  </artifact>
+</component>

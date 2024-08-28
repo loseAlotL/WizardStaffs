@@ -8,4 +8,7 @@ commands:
     usage: /<command>
   wsgetstaff:
     permission: ws.admin
-    usage: /<command>
+    usage: "/wsgetstaff <name> <model data>"
+  wsgetrune:
+    permission: ws.admin
+    usage: "/wsgetrune <name> <level>"

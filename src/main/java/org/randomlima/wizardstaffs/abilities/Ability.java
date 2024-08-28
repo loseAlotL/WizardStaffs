@@ -9,7 +9,6 @@ public interface Ability {
     String getName();
     String getDisplayName();
     UUID getID();
-
     AbilityType getAbilityType();
     void boot();
 }

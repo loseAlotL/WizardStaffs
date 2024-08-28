@@ -1,0 +1,5 @@
+version: 1.0
+abilities:
+  shield-1:
+    ability-type: SHIELD
+    damage-reduction: 10
