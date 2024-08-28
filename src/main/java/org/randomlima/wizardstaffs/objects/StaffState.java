@@ -1,4 +1,4 @@
-package org.randomlima.wizardstaffs;
+package org.randomlima.wizardstaffs.objects;
 
 public enum StaffState {
     HELD,

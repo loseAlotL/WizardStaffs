@@ -1,6 +1,6 @@
 package org.randomlima.wizardstaffs.abilities;
 
-import org.randomlima.wizardstaffs.StaffState;
+import org.randomlima.wizardstaffs.objects.StaffState;
 
 import java.util.UUID;
 
@@ -10,7 +10,6 @@ public interface Ability {
     String getDisplayName();
     UUID getID();
 
-    Abilities getAbilityType();
+    AbilityType getAbilityType();
     void boot();
-
 }
