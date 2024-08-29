@@ -69,7 +69,7 @@ public class GetRuneCommand implements CommandExecutor {
         lore.add(Colorize.format("&5Level: &d"+runeLevel));
         meta.setLore(lore);
         meta.getPersistentDataContainer().set(RuneKeys.runeIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
-        meta.getPersistentDataContainer().set(RuneKeys.runeNameKey, PersistentDataType.STRING, UUID.randomUUID().toString());
+        meta.getPersistentDataContainer().set(RuneKeys.runeNameKey, PersistentDataType.STRING, runeName);
         rune.setItemMeta(meta);
         player.getInventory().addItem(rune);
         plugin.addNewRune(rune, player.getUniqueId());
