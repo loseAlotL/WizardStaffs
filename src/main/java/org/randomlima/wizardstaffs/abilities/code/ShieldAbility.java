@@ -13,7 +13,6 @@ import org.randomlima.wizardstaffs.objects.StaffState;
 
 public class ShieldAbility extends AbilitySuper {
     private double reduction;
-    //private CooldownManager cooldownManager;
     public ShieldAbility(WizardStaffs plugin, Staff staff, String abilityName){
         super(plugin, staff, abilityName);
         try{

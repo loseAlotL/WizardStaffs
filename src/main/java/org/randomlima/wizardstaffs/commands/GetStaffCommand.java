@@ -38,23 +38,16 @@ public class GetStaffCommand implements CommandExecutor {
             sender.sendMessage(Colorize.format("&c[!] Custom model data must be a valid integer."));
             return true;
         }
-        ItemStack wandItem = createWandItem(itemName, customModelData);
-        player.getInventory().addItem(wandItem);
-        player.sendMessage(Colorize.format("&2[!] Staff added to your inventory: " + itemName));
+        ItemStack staff = new ItemStack(Material.STICK);
+        ItemMeta meta = staff.getItemMeta();
+        meta.setDisplayName(Colorize.format("&6" + itemName));
+        meta.setCustomModelData(customModelData);
+        meta.getPersistentDataContainer().set(StaffKeys.staffIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
+        meta.getPersistentDataContainer().set(StaffKeys.staffNameKey, PersistentDataType.STRING, UUID.randomUUID().toString());
+        staff.setItemMeta(meta);
+        plugin.addNewStaff(staff, player.getUniqueId());
+        player.getInventory().addItem(staff);
+        player.sendMessage(Colorize.format("&2[!] Staff added to your inventory: &6" + itemName));
         return true;
-    }
-    private ItemStack createWandItem(String name, int customModelData) {
-        ItemStack wand = new ItemStack(Material.STICK);
-        ItemMeta meta = wand.getItemMeta();
-
-        if (meta != null) {
-            meta.setDisplayName(Colorize.format("&6" + name));
-            meta.setCustomModelData(customModelData);
-            meta.getPersistentDataContainer().set(StaffKeys.staffIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
-            meta.getPersistentDataContainer().set(StaffKeys.staffNameKey, PersistentDataType.STRING, UUID.randomUUID().toString());
-            wand.setItemMeta(meta);
-        }
-
-        return wand;
     }
 }

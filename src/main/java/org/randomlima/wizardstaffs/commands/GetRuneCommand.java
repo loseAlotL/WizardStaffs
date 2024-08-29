@@ -59,29 +59,21 @@ public class GetRuneCommand implements CommandExecutor {
         }
 
         String itemName = plugin.getAbilityDataManager().getAbilityStringData(runeName, "ability-type").toLowerCase();
-        ItemStack runeItem = getRune(itemName, runeLevel);
+
 
         Player player = (Player) sender;
-        player.getInventory().addItem(runeItem);
-        player.sendMessage(Colorize.format("&2[!] Rune item added to your inventory."));
-        return true;
-    }
-    public ItemStack getRune(String runeName, int level){
-        String display = Colorize.format(runeName);
-
-
-        ItemStack runeItem = new ItemStack(Material.ENCHANTED_BOOK);
-        ItemMeta meta = runeItem.getItemMeta();
-        meta.setDisplayName(display);
-
+        ItemStack rune = new ItemStack(Material.ENCHANTED_BOOK);
+        ItemMeta meta = rune.getItemMeta();
+        meta.setDisplayName(itemName);
         List<String> lore = new ArrayList<>();
-        lore.add(Colorize.format("&5Level: &d"+level));
+        lore.add(Colorize.format("&5Level: &d"+runeLevel));
         meta.setLore(lore);
-
         meta.getPersistentDataContainer().set(RuneKeys.runeIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         meta.getPersistentDataContainer().set(RuneKeys.runeNameKey, PersistentDataType.STRING, UUID.randomUUID().toString());
-
-        runeItem.setItemMeta(meta);
-        return runeItem;
+        rune.setItemMeta(meta);
+        player.getInventory().addItem(rune);
+        plugin.addNewRune(rune, player.getUniqueId());
+        player.sendMessage(Colorize.format("&2[!] Rune item added to your inventory."));
+        return true;
     }
 }
