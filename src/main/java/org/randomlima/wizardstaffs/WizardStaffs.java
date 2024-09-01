@@ -4,15 +4,19 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.randomlima.wizardstaffs.abilities.listeners.StaffGUI;
+import org.checkerframework.checker.units.qual.N;
+import org.randomlima.wizardstaffs.listeners.StaffGUI;
 import org.randomlima.wizardstaffs.commands.GetRuneCommand;
 import org.randomlima.wizardstaffs.commands.GetStaffCommand;
 import org.randomlima.wizardstaffs.managers.AbilityDataManager;
+import org.randomlima.wizardstaffs.managers.StaffDataManager;
 import org.randomlima.wizardstaffs.objects.Rune;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.objects.StaffState;
-import org.randomlima.wizardstaffs.utilities.RuneKeys;
-import org.randomlima.wizardstaffs.utilities.StaffKeys;
+import org.randomlima.wizardstaffs.utilities.DataParser;
+import org.randomlima.wizardstaffs.utilities.keys.AbilityKeys;
+import org.randomlima.wizardstaffs.utilities.keys.RuneKeys;
+import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -22,17 +26,22 @@ public final class WizardStaffs extends JavaPlugin{
     private ArrayList<Staff> staffList = new ArrayList<>();
     private ArrayList<Rune> runeList = new ArrayList<>();
     private AbilityDataManager abilityDataManager;
+    private StaffDataManager staffDataManager;
     private GetStaffCommand getStaffCommand;
     private GetRuneCommand getRuneCommand;
+    private DataParser dataParser;
 
     @Override
     public void onEnable() {
         StaffKeys.staffNameKey = new NamespacedKey(this, "Wizard-staff-name");
         StaffKeys.staffIDKey = new NamespacedKey(this, "Wizard-staffID");
+        StaffKeys.staffGUI = new NamespacedKey(this, "Wizard-staffGUI");
         RuneKeys.runeNameKey = new NamespacedKey(this, "rune-name");
         RuneKeys.runeIDKey = new NamespacedKey(this, "runeID");
+        AbilityKeys.ability = new NamespacedKey(this, "runeData");
 
         this.abilityDataManager = new AbilityDataManager(this, "abilities.yml");
+        //this.staffDataManager = new StaffDataManager(this,"staffs.yml");
 
         this.getStaffCommand = new GetStaffCommand(this);
         this.getRuneCommand = new GetRuneCommand(this);

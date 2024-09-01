@@ -11,4 +11,4 @@ commands:
     usage: "/wsgetstaff <name> <model data>"
   wsgetrune:
     permission: ws.admin
-    usage: "/wsgetrune <name> <level>"
+    usage: "/wsgetrune <name>"

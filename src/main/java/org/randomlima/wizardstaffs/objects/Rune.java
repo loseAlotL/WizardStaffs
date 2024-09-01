@@ -1,20 +1,13 @@
 package org.randomlima.wizardstaffs.objects;
 
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.abilities.Ability;
 import org.randomlima.wizardstaffs.managers.SlotManager;
 import org.randomlima.wizardstaffs.managers.StaffStateManager;
-import org.randomlima.wizardstaffs.utilities.Colorize;
-import org.randomlima.wizardstaffs.utilities.Msg;
-import org.randomlima.wizardstaffs.utilities.RuneKeys;
-import org.randomlima.wizardstaffs.utilities.StaffKeys;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Rune {

@@ -1,19 +1,17 @@
 package org.randomlima.wizardstaffs.commands;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.utilities.Colorize;
-import org.randomlima.wizardstaffs.utilities.StaffKeys;
+import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
 import java.util.UUID;
 
@@ -44,6 +42,7 @@ public class GetStaffCommand implements CommandExecutor {
         meta.setCustomModelData(customModelData);
         meta.getPersistentDataContainer().set(StaffKeys.staffIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         meta.getPersistentDataContainer().set(StaffKeys.staffNameKey, PersistentDataType.STRING, UUID.randomUUID().toString());
+        //meta.getPersistentDataContainer().set(StaffKeys.staffGUI, PersistentDataType.STRING, "amogus");
         staff.setItemMeta(meta);
         plugin.addNewStaff(staff, player.getUniqueId());
         player.getInventory().addItem(staff);

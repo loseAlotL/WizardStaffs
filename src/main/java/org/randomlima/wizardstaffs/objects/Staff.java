@@ -2,7 +2,6 @@ package org.randomlima.wizardstaffs.objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.randomlima.wizardstaffs.WizardStaffs;
@@ -11,7 +10,7 @@ import org.randomlima.wizardstaffs.managers.SlotManager;
 import org.randomlima.wizardstaffs.managers.StaffStateManager;
 import org.randomlima.wizardstaffs.utilities.Colorize;
 import org.randomlima.wizardstaffs.utilities.Msg;
-import org.randomlima.wizardstaffs.utilities.StaffKeys;
+import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
 import java.util.ArrayList;
 import java.util.Objects;

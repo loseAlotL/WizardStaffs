@@ -1,4 +1,4 @@
-package org.randomlima.wizardstaffs.utilities;
+package org.randomlima.wizardstaffs.utilities.keys;
 
 import org.bukkit.NamespacedKey;
 
