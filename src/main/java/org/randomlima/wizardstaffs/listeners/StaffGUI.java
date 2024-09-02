@@ -39,7 +39,6 @@ public class StaffGUI implements Listener {
         }
         openMenu(event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
         event.getPlayer().setMetadata("openMenu", new FixedMetadataValue(plugin, true));
-        System.out.println(event.getPlayer().getMetadata("openMenu"));
     }
     public void openMenu(Player player, ItemStack item) throws IOException {
         String name = item.getItemMeta().getDisplayName();
@@ -55,21 +54,24 @@ public class StaffGUI implements Listener {
         }
     }
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event){
+    public void onInventoryShiftClick(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         if(!player.hasMetadata("openMenu"))return;
-        if(event.getClick().isShiftClick()){
-            Inventory clicked = event.getInventory();
-            if(clicked == event.getWhoClicked().getInventory())return;
-            ItemStack clickedOn = event.getCurrentItem();
-            if(clickedOn == null)return;
-            if(!plugin.verifyRuneItem(clickedOn))event.setCancelled(true);
-        } else {
-            Inventory clicked = event.getClickedInventory();
-            if(clicked == event.getWhoClicked().getInventory())return;
-            ItemStack onCursor = event.getCursor();
-            if(!plugin.verifyRuneItem(onCursor))event.setCancelled(true);
-        }
+        if(!event.getClick().isShiftClick())return;
+        Inventory clicked = event.getInventory();
+        if(clicked == event.getWhoClicked().getInventory())return;
+        ItemStack clickedOn = event.getCurrentItem();
+        if(clickedOn == null)return;
+        if(!plugin.verifyRuneItem(clickedOn))event.setCancelled(true);
+    }
+    @EventHandler
+    public void onInventoryclick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        if(!player.hasMetadata("openMenu"))return;
+        if(event.getClick().isShiftClick())return;
+        ItemStack item = event.getCurrentItem();
+        if(item == null)return;
+        if(!plugin.verifyRuneItem(item))event.setCancelled(true);
     }
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
