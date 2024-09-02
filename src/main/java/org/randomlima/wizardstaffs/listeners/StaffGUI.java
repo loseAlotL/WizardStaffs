@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataType;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.managers.AbilityDataManager;
@@ -20,16 +21,10 @@ import org.randomlima.wizardstaffs.utilities.InventoryToBase64;
 import org.randomlima.wizardstaffs.utilities.keys.RuneKeys;
 import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StaffGUI implements Listener {
     private WizardStaffs plugin;
-    private DataManager dataManager;
-    private AbilityDataManager abilityDataManager;
-    private List<Inventory> menuList = new ArrayList<>();
 
     public StaffGUI(WizardStaffs plugin){
         this.plugin = plugin;
@@ -43,38 +38,49 @@ public class StaffGUI implements Listener {
             return;
         }
         openMenu(event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
+        event.getPlayer().setMetadata("openMenu", new FixedMetadataValue(plugin, true));
+        System.out.println(event.getPlayer().getMetadata("openMenu"));
     }
     public void openMenu(Player player, ItemStack item) throws IOException {
         String name = item.getItemMeta().getDisplayName();
         if(!item.getItemMeta().getPersistentDataContainer().has(StaffKeys.staffGUI, PersistentDataType.STRING)){
             Inventory gui = Bukkit.createInventory(null, 9, Colorize.format("&6"+name+" Menu"));
             player.openInventory(gui);
-            menuList.add(gui);
         } else{
             String inv = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING);
             Inventory gui = Bukkit.createInventory(null, 9, Colorize.format("&6&l"+name+" Menu"));
             Inventory saved = InventoryToBase64.fromBase64(inv);
             gui.setStorageContents(saved.getStorageContents());
             player.openInventory(gui);
-            menuList.add(gui);
-            menuList.remove(saved);
         }
     }
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
-        if(!menuList.contains(event.getClickedInventory()))return;
-        if(!(event.getWhoClicked() instanceof Player))return;
-        if(     event.getAction() != InventoryAction.PLACE_ALL &&
-                event.getAction() != InventoryAction.PLACE_ONE &&
-                event.getAction() != InventoryAction.PLACE_SOME &&
-                event.getAction() != InventoryAction.SWAP_WITH_CURSOR)return;
-        ItemStack rune = event.getCursor();
-        if(!plugin.verifyRuneItem(rune))event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        if(!player.hasMetadata("openMenu"))return;
+        if(event.getClick().isShiftClick()){
+            Inventory clicked = event.getInventory();
+            if(clicked == event.getWhoClicked().getInventory())return;
+            ItemStack clickedOn = event.getCurrentItem();
+            if(clickedOn == null)return;
+            if(!plugin.verifyRuneItem(clickedOn))event.setCancelled(true);
+        } else {
+            Inventory clicked = event.getClickedInventory();
+            if(clicked == event.getWhoClicked().getInventory())return;
+            ItemStack onCursor = event.getCursor();
+            if(!plugin.verifyRuneItem(onCursor))event.setCancelled(true);
+        }
     }
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
-        if (menuList.contains(event.getInventory())){
-            menuList.remove(event.getInventory());
+        if (event.getPlayer().hasMetadata("openMenu")){
+            for(ItemStack i : event.getInventory().getContents()){
+                if(i != null && !plugin.verifyRuneItem(i)){
+                    event.getInventory().remove(i);
+                    event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), i);
+                }
+            }
+            event.getPlayer().removeMetadata("openMenu", plugin);
             String inv = InventoryToBase64.toBase64(event.getInventory());
             ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
