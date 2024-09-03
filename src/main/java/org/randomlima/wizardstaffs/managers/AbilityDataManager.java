@@ -2,6 +2,8 @@ package org.randomlima.wizardstaffs.managers;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.randomlima.wizardstaffs.WizardStaffs;
+import org.randomlima.wizardstaffs.abilities.Ability;
+import org.randomlima.wizardstaffs.abilities.AbilitySuper;
 import org.randomlima.wizardstaffs.abilities.AbilityType;
 import org.randomlima.wizardstaffs.managers.essentials.DataFile;
 import org.randomlima.wizardstaffs.managers.essentials.DataManager;
@@ -50,6 +52,9 @@ public class AbilityDataManager implements DataFile {
 
     public ArrayList<String> getAbilities(){return abilities;}
     public AbilityType getAbilityType(String ability){
+        return abilityTypes.get(ability);
+    }
+    public AbilityType getAbilityString(String ability){
         return abilityTypes.get(ability);
     }
     public <T> T getAbilityData(String ability, String meta){

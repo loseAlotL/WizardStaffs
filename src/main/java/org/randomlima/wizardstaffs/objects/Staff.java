@@ -32,15 +32,18 @@ public class Staff {
     private String staffName;
 
     private SlotManager slotManager;
+    private InventoryToBase64 inventoryToBase64;
     private StaffStateManager staffStateManager;
     private BukkitScheduler scheduler;
 
-    public Staff(WizardStaffs plugin, ItemStack item, UUID owner){
+    public Staff(WizardStaffs plugin, ItemStack item, UUID owner) {
         this.plugin = plugin;
         this.owner = owner;
         this.scheduler = plugin.getServer().getScheduler();
+        this.inventoryToBase64 = new InventoryToBase64(plugin);
+        load(item, owner);
     }
-    public void load(ItemStack item, UUID owner) throws IOException {
+    public void load(ItemStack item, UUID owner) {
         this.owner = owner;
         this.staffName = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffNameKey, PersistentDataType.STRING);
         this.staffID = UUID.fromString(item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffIDKey, PersistentDataType.STRING));
@@ -59,10 +62,9 @@ public class Staff {
             plugin.getServer().getConsoleSender().sendMessage(Colorize.format(Msg.failedRingLoad));
             return;
         }
-        String abilityData = item.getItemMeta().getPersistentDataContainer().get(AbilityKeys.ability, PersistentDataType.STRING);
-        Inventory inv = InventoryToBase64.fromBase64(abilityData);
+        String abilityData = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING);
+        Inventory inv = inventoryToBase64.fromBase64(abilityData);
         if(abilities == null) this.abilities = plugin.getAbilities(inv, this);
-
         if(abilities != null){
             for(Ability ability : abilities){
                 ability.boot();

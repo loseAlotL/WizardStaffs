@@ -1,12 +1,17 @@
 package org.randomlima.wizardstaffs.abilities;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.objects.StaffState;
 import org.randomlima.wizardstaffs.utilities.Colorize;
+import org.randomlima.wizardstaffs.utilities.DataParser;
 import org.randomlima.wizardstaffs.utilities.Msg;
+import org.randomlima.wizardstaffs.utilities.keys.AbilityKeys;
 
 import java.util.UUID;
 
@@ -17,13 +22,20 @@ public class AbilitySuper implements Ability, Listener {
     WizardStaffs plugin;
     Staff staff;
     AbilityType abilityType;
-    public AbilitySuper(WizardStaffs plugin, Staff staff, String abilityName){
+    ItemStack staffItem;
+    DataParser dataParser;
+    public AbilitySuper(WizardStaffs plugin, Staff staff, ItemStack staffItem, String abilityName){
         this.plugin = plugin;
         this.staff = staff;
+        this.staffItem = staffItem;
         this.abilityName = abilityName;
         this.uuid = UUID.randomUUID();
-//        this.abilityDisplayName = plugin.getAbilityDataManager().getAbilityData(abilityName, "display-name");
-//        this.abilityType = plugin.getAbilityDataManager().getAbilityType(abilityName);
+        this.dataParser = new DataParser();
+        this.abilityDisplayName = dataParser.getStringData(staffItem,"display-name");
+        //this.abilityDisplayName = plugin.getAbilityDataManager().getAbilityData(abilityName, "display-name");
+        //this.abilityType = plugin.getAbilityDataManager().getAbilityType(abilityName);
+        this.abilityType = AbilityType.valueOf(dataParser.getStringData(staffItem, "ability-type"));
+        System.out.println("ABILITY TYP{EEEEEEEEEEEE: "+AbilityType.valueOf(dataParser.getStringData(staffItem, "ability-type")));
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     public boolean abilityCanBeUsed(UUID playerID){

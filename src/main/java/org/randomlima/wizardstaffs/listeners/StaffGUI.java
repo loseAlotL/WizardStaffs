@@ -28,10 +28,12 @@ import java.util.List;
 public class StaffGUI implements Listener {
     private WizardStaffs plugin;
     private DataParser dataParser;
+    private InventoryToBase64 inventoryToBase64;
 
     public StaffGUI(WizardStaffs plugin){
         this.plugin = plugin;
         this.dataParser = new DataParser();
+        this.inventoryToBase64 = new InventoryToBase64(plugin);
     }
     @EventHandler
     public void onLeftClick(PlayerInteractEvent event) throws IOException {
@@ -52,7 +54,7 @@ public class StaffGUI implements Listener {
         } else{
             String inv = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING);
             Inventory gui = Bukkit.createInventory(null, 9, Colorize.format("&6&l"+name+" Menu"));
-            Inventory saved = InventoryToBase64.fromBase64(inv);
+            Inventory saved = inventoryToBase64.fromBase64(inv);
             gui.setStorageContents(saved.getStorageContents());
             player.openInventory(gui);
         }
@@ -79,17 +81,18 @@ public class StaffGUI implements Listener {
     }
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
-        if (event.getPlayer().hasMetadata("openMenu")){
+        Player player = (Player) event.getPlayer();
+        if (player.hasMetadata("openMenu")){
             for(ItemStack i : event.getInventory().getContents()){
                 if(i != null && !plugin.verifyRuneItem(i)){
                     event.getInventory().remove(i);
-                    event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), i);
+                    player.getWorld().dropItem(event.getPlayer().getLocation(), i);
                 }
             }
-            event.getPlayer().removeMetadata("openMenu", plugin);
-            String inv = InventoryToBase64.toBase64(event.getInventory());
-            ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+            player.removeMetadata("openMenu", plugin);
+            ItemStack item = player.getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
+            String inv = inventoryToBase64.toBase64(event.getInventory());
             meta.getPersistentDataContainer().set(StaffKeys.staffGUI, PersistentDataType.STRING, inv);
             List<String> lore = new ArrayList<>();
             lore.add(Colorize.format("&3Abilities:"));
@@ -98,6 +101,8 @@ public class StaffGUI implements Listener {
             }
             meta.setLore(lore);
             item.setItemMeta(meta);
+            ItemStack staff = player.getInventory().getItemInMainHand();
+            plugin.addNewStaff(staff, player.getUniqueId());
         }
     }
 }

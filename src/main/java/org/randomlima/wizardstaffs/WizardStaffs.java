@@ -17,6 +17,7 @@ import org.randomlima.wizardstaffs.objects.Rune;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.objects.StaffState;
 import org.randomlima.wizardstaffs.utilities.DataParser;
+import org.randomlima.wizardstaffs.utilities.InventoryToBase64;
 import org.randomlima.wizardstaffs.utilities.keys.AbilityKeys;
 import org.randomlima.wizardstaffs.utilities.keys.RuneKeys;
 import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
@@ -31,6 +32,7 @@ public final class WizardStaffs extends JavaPlugin{
     private ArrayList<Rune> runeList = new ArrayList<>();
     private AbilityDataManager abilityDataManager;
     private AbilityGenerator abilityGenerator;
+    private InventoryToBase64 inventoryToBase64;
     private StaffDataManager staffDataManager;
     private GetStaffCommand getStaffCommand;
     private GetRuneCommand getRuneCommand;
@@ -54,6 +56,7 @@ public final class WizardStaffs extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new StaffGUI(this), this);
 
         this.abilityGenerator = new AbilityGenerator(this);
+
     }
 
     @Override
@@ -61,7 +64,7 @@ public final class WizardStaffs extends JavaPlugin{
         // Plugin shutdown logic
     }
 
-    public void addNewStaff(ItemStack item, UUID owner) throws IOException {
+    public void addNewStaff(ItemStack item, UUID owner) {
         if(!verifyStaffItem(item))return;
         //if(!checkIfNewRing(item)) return;
         if(!checkIfNewStaff(item)) {

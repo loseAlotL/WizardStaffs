@@ -5,7 +5,8 @@ public enum AbilityType {
     BALANCE(false,true),
     MELEE(false,true),
     RANGED(false,true),
-    TELEKINESIS(true,true);
+    TELEKINESIS(true,true),
+    BOOST(true, true);
     private boolean isToggled;
     private boolean onlyActiveWhenHeld;
     AbilityType(boolean isToggled, boolean onlyActiveWhenHeld){

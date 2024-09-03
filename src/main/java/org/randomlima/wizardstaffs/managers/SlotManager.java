@@ -30,9 +30,10 @@ public class SlotManager implements Listener {
         Collections.reverse(abilities); //yea yea I have to reverse it again because of stupid lore list stuff
 
         for(Ability ability : abilities){
-            if(ability.getAbilityType().isToggled()){
+
+            //if(ability.getAbilityType().isToggled()){
                 this.abilities.add(ability);
-            }
+            //}
         }
         this.maxSlots = this.abilities.size()-1;
     }
@@ -44,14 +45,18 @@ public class SlotManager implements Listener {
         Bukkit.getPlayer(manager.getOwner()).sendActionBar(Colorize.format(abilities.get(slot).getDisplayName()));
     }
     public Ability getActiveAbility(){
+        System.out.println("SLOT!!!!!!!!!!!: "+slot);
+        System.out.println(abilities.size());
         return abilities.get(slot);
     }
     @EventHandler
     public void onShiftLeftClick(PlayerInteractEvent event){
+        System.out.println(manager.getOwner());
         if(!event.getPlayer().getUniqueId().equals(manager.getOwner()))return;
         if(!event.getAction().isLeftClick())return;
         if(manager.getState() != StaffState.HELD)return;
         if(!event.getPlayer().isSneaking())return;
+        System.out.println("next slot");
         nextSlot();
     }
     @EventHandler

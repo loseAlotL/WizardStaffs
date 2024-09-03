@@ -2,11 +2,74 @@ version: 1.0
 abilities:
   shield-1:
     ability-type: SHIELD
-    display-name: "&6Shield"
-    damage-reduction: 10
+    display-name: '&7&lShield'
+    damage-reduction: 10.0
     lore:
-      - 'Reduces damage taken by 10%'
-      - 'Level 1'
-      - 'Common Rune'
-  ability-2:
-    blahblahblah
+      - '&8Reduces damage taken by &710%'
+      - '&fLevel 1'
+      - ''
+      - '&7&lUNCOMMON &r&dRUNE'
+  shield-2:
+    ability-type: SHIELD
+    display-name: '&7&lShield'
+    damage-reduction: 20.0
+    lore:
+      - '&8Reduces damage taken by &720%'
+      - '&fLevel 2'
+      - ''
+      - '&a&lCOMMON &r&dRUNE'
+  shield-3:
+    ability-type: SHIELD
+    display-name: '&7&lShield'
+    damage-reduction: 30.0
+    lore:
+      - '&8Reduces damage taken by &730%'
+      - '&fLevel 3'
+      - ''
+      - '&9&lRARE &r&dRUNE'
+  shield-4:
+    ability-type: SHIELD
+    display-name: '&7&lShield'
+    damage-reduction: 40.0
+    lore:
+      - '&8Reduces damage taken by &740%'
+      - '&fLevel 4'
+      - ''
+      - '&5&lEPIC &r&dRUNE'
+  shield-5:
+    ability-type: SHIELD
+    display-name: '&7&lShield'
+    damage-reduction: 50.0
+    lore:
+      - '&8Reduces damage taken by &750%'
+      - '&fLevel 5'
+      - ''
+      - '&6&lLEGENDARY &r&dRUNE'
+  shield-6:
+    ability-type: SHIELD
+    display-name: '&7&lShield'
+    damage-reduction: 60.0
+    lore:
+      - '&8Reduces damage taken by &760%'
+      - '&fLevel 6'
+      - ''
+      - '&d&lMYTHIC &r&dRUNE'
+  shield-7:
+    ability-type: SHIELD
+    display-name: '&7&lShield'
+    damage-reduction: 70.0
+    lore:
+      - '&8Reduces damage taken by &770%'
+      - '&fLevel 7'
+      - ''
+      - '&b&lDIVINE &r&dRUNE'
+  boost-1:
+    ability-type: BOOST
+    display-name: '&7&lBoost'
+    velocity: 2.0
+    lore:
+      - '&8Boost forward!'
+      - '&fLevel 1'
+      - ''
+      - '&b&lDIVINE &r&dRUNE'
+

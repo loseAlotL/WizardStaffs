@@ -20,15 +20,15 @@ public class DataParser {
         for (String key : configSec.getKeys(false)) {
             String value = configSec.getString(key);
             if (value != null) {
-                dataString.append(key).append(": ").append(value).append(", ");
+                dataString.append(key).append(":").append(value).append(",");
             }
         }
         int length = dataString.length();
         if (length > 0) {
-            dataString.setLength(length - 2); // Remove the last ", "
+            dataString.setLength(length - 1); // remove the last comma
         }
 
-        return dataString.toString();
+        return dataString.toString().replace(" ", "");
     }
 
     public String getStringData(ItemStack item, String key){
@@ -36,8 +36,10 @@ public class DataParser {
         if(!item.getItemMeta().getPersistentDataContainer().has(AbilityKeys.ability))return null;
         String abilityData = item.getItemMeta().getPersistentDataContainer().get(AbilityKeys.ability, PersistentDataType.STRING);
         String[] dataParts = abilityData.split(",");
+        System.out.println("parts:");
         for(String part : dataParts){
-            if(part.startsWith(key + ":"))return part.split(": ")[1];
+            System.out.println(part);
+            if(part.startsWith(key + ":"))return part.split(":")[1];
         }
         return null;
     }
