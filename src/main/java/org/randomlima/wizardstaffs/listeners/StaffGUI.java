@@ -22,12 +22,16 @@ import org.randomlima.wizardstaffs.utilities.keys.RuneKeys;
 import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StaffGUI implements Listener {
     private WizardStaffs plugin;
+    private DataParser dataParser;
 
     public StaffGUI(WizardStaffs plugin){
         this.plugin = plugin;
+        this.dataParser = new DataParser();
     }
     @EventHandler
     public void onLeftClick(PlayerInteractEvent event) throws IOException {
@@ -87,6 +91,12 @@ public class StaffGUI implements Listener {
             ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
             meta.getPersistentDataContainer().set(StaffKeys.staffGUI, PersistentDataType.STRING, inv);
+            List<String> lore = new ArrayList<>();
+            lore.add(Colorize.format("&3Abilities:"));
+            for(ItemStack i : event.getInventory().getContents()){
+                if(i != null)lore.add(Colorize.format("&7- "+i.getItemMeta().getDisplayName()));
+            }
+            meta.setLore(lore);
             item.setItemMeta(meta);
         }
     }

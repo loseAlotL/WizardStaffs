@@ -13,6 +13,7 @@ import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.utilities.Colorize;
 import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public class GetStaffCommand implements CommandExecutor {
@@ -42,9 +43,12 @@ public class GetStaffCommand implements CommandExecutor {
         meta.setCustomModelData(customModelData);
         meta.getPersistentDataContainer().set(StaffKeys.staffIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         meta.getPersistentDataContainer().set(StaffKeys.staffNameKey, PersistentDataType.STRING, UUID.randomUUID().toString());
-        //meta.getPersistentDataContainer().set(StaffKeys.staffGUI, PersistentDataType.STRING, "amogus");
         staff.setItemMeta(meta);
-        plugin.addNewStaff(staff, player.getUniqueId());
+        try {
+            plugin.addNewStaff(staff, player.getUniqueId());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         player.getInventory().addItem(staff);
         player.sendMessage(Colorize.format("&2[!] Staff added to your inventory: &6" + itemName));
         return true;

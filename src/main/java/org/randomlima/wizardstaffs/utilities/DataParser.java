@@ -2,29 +2,60 @@ package org.randomlima.wizardstaffs.utilities;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.randomlima.wizardstaffs.managers.AbilityDataManager;
+import org.randomlima.wizardstaffs.utilities.keys.AbilityKeys;
 
-import java.util.ArrayList;
 
 public class DataParser {
-    private AbilityDataManager abilityDataManager;
-    public String dataToString(YamlConfiguration config, String rune){
-        String fail = "[!] Config is NULL";
-        String fail2 = "[!] Config Section is NULL";
-        String path = "abilities."+rune;
-        if(config == null)return fail;
-        ArrayList<String> dataArray = new ArrayList<>();
+    public String dataToString(YamlConfiguration config, String rune) {
+        String fail = null;
+        String path = "abilities." + rune;
+        if (config == null) return fail;
         ConfigurationSection configSec = config.getConfigurationSection(path);
-        if(configSec == null)return fail2;
-        for(String s : configSec.getKeys(false)){
-            dataArray.add(s);
-            if(configSec.get(s) != null){
-                dataArray.add(":");
-                dataArray.add(configSec.getString(s));
+        if (configSec == null) return fail;
 
+        StringBuilder dataString = new StringBuilder();
+        for (String key : configSec.getKeys(false)) {
+            String value = configSec.getString(key);
+            if (value != null) {
+                dataString.append(key).append(": ").append(value).append(", ");
             }
-            dataArray.add(",");
         }
-        return dataArray.toString();
+        int length = dataString.length();
+        if (length > 0) {
+            dataString.setLength(length - 2); // Remove the last ", "
+        }
+
+        return dataString.toString();
+    }
+
+    public String getStringData(ItemStack item, String key){
+        if(item == null || item.getItemMeta() == null)return null;
+        if(!item.getItemMeta().getPersistentDataContainer().has(AbilityKeys.ability))return null;
+        String abilityData = item.getItemMeta().getPersistentDataContainer().get(AbilityKeys.ability, PersistentDataType.STRING);
+        String[] dataParts = abilityData.split(",");
+        for(String part : dataParts){
+            if(part.startsWith(key + ":"))return part.split(": ")[1];
+        }
+        return null;
+    }
+
+    public Double getDoubleData(ItemStack item, String key){
+        if(item == null || !item.hasItemMeta())return null;
+        if(!item.getItemMeta().getPersistentDataContainer().has(AbilityKeys.ability))return null;
+        String abilityData = item.getItemMeta().getPersistentDataContainer().get(AbilityKeys.ability, PersistentDataType.STRING);
+        String[] dataParts = abilityData.split(",");
+        for (String part : dataParts) {
+            if (part.startsWith(key + ":")) {
+                try {
+                    return Double.parseDouble(part.split(": ")[1]);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("[!] Value for key '" + key + "' is not a valid Double");
+                }
+            }
+        }
+        throw new IllegalArgumentException("[!] Key not found in 'runedata'");
     }
 }

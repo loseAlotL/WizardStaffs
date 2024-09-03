@@ -8,6 +8,5 @@ abilities:
       - 'Reduces damage taken by 10%'
       - 'Level 1'
       - 'Common Rune'
-    string-data: "ability-type:shield,damage-reduction:10"
   ability-2:
     blahblahblah

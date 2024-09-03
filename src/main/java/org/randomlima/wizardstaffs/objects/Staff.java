@@ -1,6 +1,7 @@
 package org.randomlima.wizardstaffs.objects;
 
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -9,9 +10,13 @@ import org.randomlima.wizardstaffs.abilities.Ability;
 import org.randomlima.wizardstaffs.managers.SlotManager;
 import org.randomlima.wizardstaffs.managers.StaffStateManager;
 import org.randomlima.wizardstaffs.utilities.Colorize;
+import org.randomlima.wizardstaffs.utilities.DataParser;
+import org.randomlima.wizardstaffs.utilities.InventoryToBase64;
 import org.randomlima.wizardstaffs.utilities.Msg;
+import org.randomlima.wizardstaffs.utilities.keys.AbilityKeys;
 import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -35,7 +40,7 @@ public class Staff {
         this.owner = owner;
         this.scheduler = plugin.getServer().getScheduler();
     }
-    public void load(ItemStack item, UUID owner){
+    public void load(ItemStack item, UUID owner) throws IOException {
         this.owner = owner;
         this.staffName = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffNameKey, PersistentDataType.STRING);
         this.staffID = UUID.fromString(item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffIDKey, PersistentDataType.STRING));
@@ -54,7 +59,9 @@ public class Staff {
             plugin.getServer().getConsoleSender().sendMessage(Colorize.format(Msg.failedRingLoad));
             return;
         }
-        //if(abilities == null) this.abilities = plugin.getAbilities(this);
+        String abilityData = item.getItemMeta().getPersistentDataContainer().get(AbilityKeys.ability, PersistentDataType.STRING);
+        Inventory inv = InventoryToBase64.fromBase64(abilityData);
+        if(abilities == null) this.abilities = plugin.getAbilities(inv, this);
 
         if(abilities != null){
             for(Ability ability : abilities){

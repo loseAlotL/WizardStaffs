@@ -76,6 +76,7 @@ public class GetRuneCommand implements CommandExecutor {
         meta.getPersistentDataContainer().set(RuneKeys.runeIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         meta.getPersistentDataContainer().set(RuneKeys.runeNameKey, PersistentDataType.STRING, rune);
         meta.getPersistentDataContainer().set(AbilityKeys.ability, PersistentDataType.STRING, runeData);
+
         item.setItemMeta(meta);
         return item;
     }

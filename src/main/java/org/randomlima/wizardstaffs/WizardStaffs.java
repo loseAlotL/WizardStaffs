@@ -1,15 +1,18 @@
 package org.randomlima.wizardstaffs;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.units.qual.N;
+import org.randomlima.wizardstaffs.abilities.Ability;
 import org.randomlima.wizardstaffs.listeners.StaffGUI;
 import org.randomlima.wizardstaffs.commands.GetRuneCommand;
 import org.randomlima.wizardstaffs.commands.GetStaffCommand;
 import org.randomlima.wizardstaffs.managers.AbilityDataManager;
 import org.randomlima.wizardstaffs.managers.StaffDataManager;
+import org.randomlima.wizardstaffs.managers.essentials.AbilityGenerator;
 import org.randomlima.wizardstaffs.objects.Rune;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.objects.StaffState;
@@ -18,6 +21,7 @@ import org.randomlima.wizardstaffs.utilities.keys.AbilityKeys;
 import org.randomlima.wizardstaffs.utilities.keys.RuneKeys;
 import org.randomlima.wizardstaffs.utilities.keys.StaffKeys;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -26,6 +30,7 @@ public final class WizardStaffs extends JavaPlugin{
     private ArrayList<Staff> staffList = new ArrayList<>();
     private ArrayList<Rune> runeList = new ArrayList<>();
     private AbilityDataManager abilityDataManager;
+    private AbilityGenerator abilityGenerator;
     private StaffDataManager staffDataManager;
     private GetStaffCommand getStaffCommand;
     private GetRuneCommand getRuneCommand;
@@ -47,6 +52,8 @@ public final class WizardStaffs extends JavaPlugin{
         this.getRuneCommand = new GetRuneCommand(this);
 
         getServer().getPluginManager().registerEvents(new StaffGUI(this), this);
+
+        this.abilityGenerator = new AbilityGenerator(this);
     }
 
     @Override
@@ -54,7 +61,7 @@ public final class WizardStaffs extends JavaPlugin{
         // Plugin shutdown logic
     }
 
-    public void addNewStaff(ItemStack item, UUID owner){
+    public void addNewStaff(ItemStack item, UUID owner) throws IOException {
         if(!verifyStaffItem(item))return;
         //if(!checkIfNewRing(item)) return;
         if(!checkIfNewStaff(item)) {
@@ -123,5 +130,9 @@ public final class WizardStaffs extends JavaPlugin{
     }
     public AbilityDataManager getAbilityDataManager(){
         return abilityDataManager;
+    }
+    public StaffDataManager getStaffDataManager(){return staffDataManager;}
+    public ArrayList<Ability> getAbilities(Inventory inv, Staff staff){
+        return abilityGenerator.getAbilities(inv, staff);
     }
 }
