@@ -18,9 +18,12 @@ import org.randomlima.wizardstaffs.utilities.keys.AbilityKeys;
 public class ShieldAbility extends AbilitySuper {
     private double reduction;
     private DataParser dataParser;
+    private boolean reducing = false;
+    private ItemStack runeItem;
     public ShieldAbility(WizardStaffs plugin, Staff staff, ItemStack runeItem, String abilityName){
         super(plugin, staff, runeItem, abilityName);
         dataParser = new DataParser();
+        this.runeItem = runeItem;
         try{
             this.reduction = Double.parseDouble(dataParser.getStringData(runeItem,"damage-reduction"));
         }catch (Exception e){
@@ -37,13 +40,15 @@ public class ShieldAbility extends AbilitySuper {
     public void playerInteract(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player))return;
         Player player = (Player) event.getEntity();
-        if(!abilityCanBeUsed(player.getUniqueId()))return;
+        if(!abilityCanBeUsed(player.getUniqueId(), runeItem))return;
         //if(cooldownManager.checkAndStartCooldown())return;
         event.setCancelled(true);
-
+        if(reducing)return;
         double damage = event.getDamage();
         double reduced = damage*(reduction/100);
         damage-=reduced;
+        reducing = true;
         player.damage(damage);
+        reducing = false;
     }
 }

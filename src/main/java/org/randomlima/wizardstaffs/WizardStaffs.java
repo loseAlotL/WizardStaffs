@@ -65,11 +65,6 @@ public final class WizardStaffs extends JavaPlugin{
         // Plugin shutdown logic
     }
 
-//    public void addNewStaff(ItemStack item, UUID owner) {
-//        if(!verifyStaffItem(item))return;
-//        Staff staff = new Staff(this, item, owner);
-//        staffList.add(staff);
-//    }
     public void addStaff(ItemStack item, UUID owner){
         if(!verifyStaffItem(item))return;
         if(checkIfNewStaff(item)){
@@ -77,11 +72,11 @@ public final class WizardStaffs extends JavaPlugin{
             staffList.add(staff);
             return;
         }
-
-        //Inventory gui = inventoryToBase64.fromBase64(item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING));
-
         for(Staff staff : staffList){
             if(staff.getUUID().equals(getStaffItemID(item))){
+                for(Ability ability : staff.getAbilities()){
+                    ability.deregister();
+                }
                 staff.deleteStaff();
                 staff.load(item, owner);
                 return;

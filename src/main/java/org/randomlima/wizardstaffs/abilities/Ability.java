@@ -11,4 +11,5 @@ public interface Ability {
     UUID getID();
     AbilityType getAbilityType();
     void boot();
+    void deregister();
 }

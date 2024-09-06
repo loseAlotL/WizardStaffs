@@ -7,6 +7,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.abilities.Ability;
 import org.randomlima.wizardstaffs.abilities.code.BoostAbility;
+import org.randomlima.wizardstaffs.abilities.code.ExplodeAbility;
 import org.randomlima.wizardstaffs.abilities.code.ShieldAbility;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.utilities.DataParser;
@@ -24,7 +25,7 @@ public class AbilityGenerator {
 
     public ArrayList<Ability> getAbilities(Inventory inventory, Staff staff){
         ArrayList<Ability> abilities = new ArrayList<>();
-        for(ItemStack item : inventory.getContents()){
+        if(inventory!=null)for(ItemStack item : inventory.getContents()){
             if(item!=null) {
                 switch(dataParser.getStringData(item, "ability-type")){
                     case "SHIELD":
@@ -33,6 +34,8 @@ public class AbilityGenerator {
                     case "BOOST":
                         abilities.add(new BoostAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
                         break;
+                    case "EXPLODE":
+                        abilities.add(new ExplodeAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
                 }
             }
 

@@ -1,6 +1,7 @@
 package org.randomlima.wizardstaffs.objects;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -62,11 +63,11 @@ public class Staff {
             plugin.getServer().getConsoleSender().sendMessage(Colorize.format(Msg.failedRingLoad));
             return;
         }
-
         String invData = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING);
         Inventory inv = inventoryToBase64.fromBase64(invData);
 
         this.abilities = plugin.getAbilities(inv, this);
+
 
         if(abilities != null){
             for(Ability ability : abilities){
@@ -121,6 +122,9 @@ public class Staff {
 
     public Ability getActiveAbility(){
         return slotManager.getActiveAbility();
+    }
+    public ArrayList<Ability> getAbilities(){
+        return abilities;
     }
     public ItemStack getItem(){
         return item;

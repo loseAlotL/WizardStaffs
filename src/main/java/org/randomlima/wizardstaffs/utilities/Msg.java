@@ -1,13 +1,13 @@
 package org.randomlima.wizardstaffs.utilities;
 
 public class Msg {
-    public static String prefix = "&8&l[&6&lLOT&4&lRings&8&l] ";
+    public static String prefix = "&6&l[&dWizard Staffs&6&l] ";
 
     //command stuff
-    public static String noArgs = prefix + "&cThis command is missing arguments. use /lotrhelp for help.";
+    public static String noArgs = prefix + "&cThis command is missing arguments. use </ha you dont get help> for help.";
     public static String help = prefix + "&c commands: \n"+
             "/lotrgetring <ringname>";
-    public static String invalidRingName = prefix + "&cThat ring does not exist, please try again.";
+    public static String invalidRingName = prefix + "&cThat staff does not exist, please try again.";
 
     //loading failures
     public static String failedAttribute = "&cAn attribute failed to load. Please check if the ring attributes are correct!";
@@ -17,7 +17,7 @@ public class Msg {
     }
     public static String failedRingLoad = prefix + "&cA ring failed to load. Please contact the developer for help.";
     public static String usefulFailedRingLoad(String ringName){
-        return prefix + "&cThe ring &b" + ringName + " &cfailed to load. Please make sure the config has the correct syntax.";
+        return prefix + "&cThe staff &b" + ringName + " &cfailed to load. Please make sure the config has the correct syntax.";
     }
 
     //config key stuff
@@ -30,6 +30,6 @@ public class Msg {
 
     //ability msgs
     public static String abilityCooldownMessage(String abilityDisplayName, int seconds){
-        return prefix + abilityDisplayName + "&c can be used again in &7" + seconds +"s&c.";
+        return prefix + abilityDisplayName + "&8 can be used again in &7" + seconds +"s&8.";
     }
 }

@@ -67,6 +67,7 @@ abilities:
     ability-type: BOOST
     display-name: '&7&lBoost'
     velocity: 2.0
+    cooldown: 5.0
     lore:
       - '&8Boost forward!'
       - '&fLevel 1'

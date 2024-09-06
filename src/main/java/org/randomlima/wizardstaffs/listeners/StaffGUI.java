@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataType;
 import org.randomlima.wizardstaffs.WizardStaffs;
+import org.randomlima.wizardstaffs.abilities.Ability;
 import org.randomlima.wizardstaffs.managers.AbilityDataManager;
 import org.randomlima.wizardstaffs.managers.essentials.DataManager;
 import org.randomlima.wizardstaffs.utilities.Colorize;

@@ -3,6 +3,7 @@ package org.randomlima.wizardstaffs.abilities;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.randomlima.wizardstaffs.WizardStaffs;
@@ -35,11 +36,15 @@ public class AbilitySuper implements Ability, Listener {
         this.abilityType = AbilityType.valueOf(dataParser.getStringData(staffItem, "ability-type"));
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
-    public boolean abilityCanBeUsed(UUID playerID){
-        if(abilityType.isToggled() && abilityType.isOnlyActiveWhenHeld())return playerID.equals(staff.getOwner()) && staff.getActiveAbility().getID().equals(uuid) && staff.isHeld();
-        if(abilityType.isOnlyActiveWhenHeld()) return playerID.equals(staff.getOwner()) && staff.isHeld();
-        if(abilityType.isToggled()) return playerID.equals(staff.getOwner()) && staff.getActiveAbility().getID().equals(uuid);
-        return false;
+    public boolean abilityCanBeUsed(UUID playerID, ItemStack rune){
+        if(!staff.isHeld())return false;
+        boolean alwaysActive = Boolean.parseBoolean(dataParser.getStringData(rune, "always-active"));
+        if(alwaysActive)return alwaysActive;
+        return staff.getActiveAbility().getID().equals(uuid);
+//        if(abilityType.isToggled() && abilityType.isOnlyActiveWhenHeld())return playerID.equals(staff.getOwner()) && staff.getActiveAbility().getID().equals(uuid) && staff.isHeld();
+//        if(abilityType.isOnlyActiveWhenHeld()) return playerID.equals(staff.getOwner()) && staff.isHeld();
+//        if(abilityType.isToggled()) return playerID.equals(staff.getOwner()) && staff.getActiveAbility().getID().equals(uuid);
+//        return false;
     }
     public void sendLoadError(){
         plugin.getServer().getConsoleSender().sendMessage(Colorize.format(Msg.abilityLoadError(abilityName, abilityType.toString())));
@@ -80,5 +85,9 @@ public class AbilitySuper implements Ability, Listener {
     @Override
     public void boot() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+    @Override
+    public void deregister(){
+        HandlerList.unregisterAll(this);
     }
 }
