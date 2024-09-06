@@ -49,6 +49,7 @@ public final class WizardStaffs extends JavaPlugin{
 
         this.abilityDataManager = new AbilityDataManager(this, "abilities.yml");
         //this.staffDataManager = new StaffDataManager(this,"staffs.yml");
+        this.inventoryToBase64 = new InventoryToBase64(this);
 
         this.getStaffCommand = new GetStaffCommand(this);
         this.getRuneCommand = new GetRuneCommand(this);
@@ -64,19 +65,28 @@ public final class WizardStaffs extends JavaPlugin{
         // Plugin shutdown logic
     }
 
-    public void addNewStaff(ItemStack item, UUID owner) {
+//    public void addNewStaff(ItemStack item, UUID owner) {
+//        if(!verifyStaffItem(item))return;
+//        Staff staff = new Staff(this, item, owner);
+//        staffList.add(staff);
+//    }
+    public void addStaff(ItemStack item, UUID owner){
         if(!verifyStaffItem(item))return;
-        //if(!checkIfNewRing(item)) return;
-        if(!checkIfNewStaff(item)) {
-//            Bukkit.broadcastMessage("oh no");
-            for(Staff staff : staffList){
-                if(staff.getUUID().equals(getStaffItemID(item)) && staff.getState().equals(StaffState.LOST))
-                    staff.load(item, owner);
-            }
+        if(checkIfNewStaff(item)){
+            Staff staff = new Staff(this, item, owner);
+            staffList.add(staff);
             return;
         }
-        Staff staff = new Staff(this, item, owner);
-        staffList.add(staff);
+
+        //Inventory gui = inventoryToBase64.fromBase64(item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING));
+
+        for(Staff staff : staffList){
+            if(staff.getUUID().equals(getStaffItemID(item))){
+                staff.deleteStaff();
+                staff.load(item, owner);
+                return;
+            }
+        }
     }
     public void addNewRune(ItemStack item, UUID owner){
         if(!verifyRuneItem(item))return;
@@ -108,7 +118,6 @@ public final class WizardStaffs extends JavaPlugin{
     public boolean checkIfNewStaff(ItemStack itemStack){
         if(!verifyStaffItem(itemStack))return false;
         if(getStaffIDs().isEmpty())return true;
-//        if(getRingIDs() == null)return true;
         return !getStaffIDs().contains(UUID.fromString(Objects.requireNonNull(itemStack.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffIDKey, PersistentDataType.STRING))));
     }
     public boolean checkIfNewRune(ItemStack itemStack){

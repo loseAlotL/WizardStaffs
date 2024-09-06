@@ -21,14 +21,8 @@ public class ShieldAbility extends AbilitySuper {
     public ShieldAbility(WizardStaffs plugin, Staff staff, ItemStack runeItem, String abilityName){
         super(plugin, staff, runeItem, abilityName);
         dataParser = new DataParser();
-        System.out.println(staff);
-        System.out.println(runeItem);
-        System.out.println("AAAAAAAAAAAAA");
-        System.out.println(dataParser.getStringData(runeItem,"damage-reduction"));
-        System.out.println("EEEEEEEEE");
         try{
             this.reduction = Double.parseDouble(dataParser.getStringData(runeItem,"damage-reduction"));
-            System.out.println("YAYYYYYYYYY");
         }catch (Exception e){
             sendLoadError();
         }

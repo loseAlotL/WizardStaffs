@@ -44,7 +44,7 @@ public class GetStaffCommand implements CommandExecutor {
         meta.getPersistentDataContainer().set(StaffKeys.staffIDKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         meta.getPersistentDataContainer().set(StaffKeys.staffNameKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         staff.setItemMeta(meta);
-        //plugin.addNewStaff(staff, player.getUniqueId());
+        plugin.addStaff(staff, player.getUniqueId());
         player.getInventory().addItem(staff);
         player.sendMessage(Colorize.format("&2[!] Staff added to your inventory: &6" + itemName));
         return true;

@@ -24,17 +24,19 @@ public class AbilityGenerator {
 
     public ArrayList<Ability> getAbilities(Inventory inventory, Staff staff){
         ArrayList<Ability> abilities = new ArrayList<>();
-        if(inventory != null)for(ItemStack item : inventory.getContents()){
-            if(item != null)switch(dataParser.getStringData(item, "ability-type")){
-                case "SHIELD":
-                    abilities.add(new ShieldAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
-                    break;
-                case "BOOST":
-                    abilities.add(new BoostAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
-                    break;
+        for(ItemStack item : inventory.getContents()){
+            if(item!=null) {
+                switch(dataParser.getStringData(item, "ability-type")){
+                    case "SHIELD":
+                        abilities.add(new ShieldAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
+                        break;
+                    case "BOOST":
+                        abilities.add(new BoostAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
+                        break;
+                }
             }
+
         }
         return abilities;
     }
-
 }

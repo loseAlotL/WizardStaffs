@@ -102,7 +102,7 @@ public class StaffGUI implements Listener {
             meta.setLore(lore);
             item.setItemMeta(meta);
             ItemStack staff = player.getInventory().getItemInMainHand();
-            plugin.addNewStaff(staff, player.getUniqueId());
+            plugin.addStaff(staff, player.getUniqueId());
         }
     }
 }

@@ -34,7 +34,7 @@ public class InventoryToBase64 {
             dataOutput.close();
             return Base64Coder.encodeLines(outputStream.toByteArray());
         } catch (Exception e) {
-            plugin.getServer().getConsoleSender().sendMessage(Colorize.format("[!] Inventory serialization error."));
+            plugin.getServer().getConsoleSender().sendMessage(Colorize.format("&6&l[!] Inventory serialization error."));
             return null;
         }
     }
@@ -50,7 +50,7 @@ public class InventoryToBase64 {
             dataInput.close();
             return inventory;
         } catch (Exception e) {
-            plugin.getServer().getConsoleSender().sendMessage(Colorize.format("[!] String to inventory serialization error."));
+            plugin.getServer().getConsoleSender().sendMessage(Colorize.format("&6&l[!] String to inventory serialization error."));
             return null;
         }
     }

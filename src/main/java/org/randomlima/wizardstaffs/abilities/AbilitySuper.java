@@ -32,10 +32,7 @@ public class AbilitySuper implements Ability, Listener {
         this.uuid = UUID.randomUUID();
         this.dataParser = new DataParser();
         this.abilityDisplayName = dataParser.getStringData(staffItem,"display-name");
-        //this.abilityDisplayName = plugin.getAbilityDataManager().getAbilityData(abilityName, "display-name");
-        //this.abilityType = plugin.getAbilityDataManager().getAbilityType(abilityName);
         this.abilityType = AbilityType.valueOf(dataParser.getStringData(staffItem, "ability-type"));
-        System.out.println("ABILITY TYP{EEEEEEEEEEEE: "+AbilityType.valueOf(dataParser.getStringData(staffItem, "ability-type")));
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     public boolean abilityCanBeUsed(UUID playerID){

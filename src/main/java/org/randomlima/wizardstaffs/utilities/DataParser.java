@@ -36,9 +36,7 @@ public class DataParser {
         if(!item.getItemMeta().getPersistentDataContainer().has(AbilityKeys.ability))return null;
         String abilityData = item.getItemMeta().getPersistentDataContainer().get(AbilityKeys.ability, PersistentDataType.STRING);
         String[] dataParts = abilityData.split(",");
-        System.out.println("parts:");
         for(String part : dataParts){
-            System.out.println(part);
             if(part.startsWith(key + ":"))return part.split(":")[1];
         }
         return null;

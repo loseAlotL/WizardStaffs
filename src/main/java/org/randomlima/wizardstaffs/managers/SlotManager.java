@@ -27,13 +27,9 @@ public class SlotManager implements Listener {
         this.manager = manager;
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
-        Collections.reverse(abilities); //yea yea I have to reverse it again because of stupid lore list stuff
-
-        for(Ability ability : abilities){
-
-            //if(ability.getAbilityType().isToggled()){
-                this.abilities.add(ability);
-            //}
+        //Collections.reverse(abilities); //yea yea I have to reverse it again because of stupid lore list stuff
+        if(abilities != null){
+            this.abilities.addAll(abilities);
         }
         this.maxSlots = this.abilities.size()-1;
     }
@@ -42,22 +38,23 @@ public class SlotManager implements Listener {
         if(slot > maxSlots){
             slot = 0;
         }
-        Bukkit.getPlayer(manager.getOwner()).sendActionBar(Colorize.format(abilities.get(slot).getDisplayName()));
+        if(!abilities.isEmpty())
+            Bukkit.getPlayer(manager.getOwner()).sendActionBar(Colorize.format("&l[ "+abilities.get(slot).getDisplayName()+" &r&l]"));
+
     }
     public Ability getActiveAbility(){
-        System.out.println("SLOT!!!!!!!!!!!: "+slot);
-        System.out.println(abilities.size());
-        return abilities.get(slot);
+        if(!abilities.isEmpty())return abilities.get(slot);
+        return null;
     }
     @EventHandler
     public void onShiftLeftClick(PlayerInteractEvent event){
-        System.out.println(manager.getOwner());
         if(!event.getPlayer().getUniqueId().equals(manager.getOwner()))return;
         if(!event.getAction().isLeftClick())return;
         if(manager.getState() != StaffState.HELD)return;
         if(!event.getPlayer().isSneaking())return;
-        System.out.println("next slot");
-        nextSlot();
+        if(abilities != null && !abilities.isEmpty()){
+            nextSlot();
+        }
     }
     @EventHandler
     public void onRun(PlayerJumpEvent event){

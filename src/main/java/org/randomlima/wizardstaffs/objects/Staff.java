@@ -62,16 +62,23 @@ public class Staff {
             plugin.getServer().getConsoleSender().sendMessage(Colorize.format(Msg.failedRingLoad));
             return;
         }
-        String abilityData = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING);
-        Inventory inv = inventoryToBase64.fromBase64(abilityData);
-        if(abilities == null) this.abilities = plugin.getAbilities(inv, this);
+
+        String invData = item.getItemMeta().getPersistentDataContainer().get(StaffKeys.staffGUI, PersistentDataType.STRING);
+        Inventory inv = inventoryToBase64.fromBase64(invData);
+
+        this.abilities = plugin.getAbilities(inv, this);
+
         if(abilities != null){
             for(Ability ability : abilities){
                 ability.boot();
             }
+            this.slotManager = new SlotManager(plugin, this, abilities);
+            switchStaffState(StaffState.INVENTORY);
+            this.staffStateManager = new StaffStateManager(plugin, this);
+            return;
         }
+
         this.slotManager = new SlotManager(plugin, this, abilities);
-        //updateRing();
         switchStaffState(StaffState.INVENTORY);
         this.staffStateManager = new StaffStateManager(plugin, this);
     }
@@ -79,14 +86,18 @@ public class Staff {
         if(staffState == this.staffState)return;
         this.staffState = staffState;
         //Bukkit.broadcastMessage("Item " + ringName + " state: " + ringState);
-        for(Ability ability : abilities){
+        if(abilities != null)for(Ability ability : abilities){
             ability.switchState(staffState);
         }
-        if(this.staffState == StaffState.HELD)heldLogic();
+        if(this.staffState == StaffState.HELD && !abilities.isEmpty()){
+            heldLogic();
+        }
         if(this.staffState == StaffState.LOST)deleteStaff();
     }
     public void heldLogic(){
-        Bukkit.getPlayer(getOwner()).sendActionBar(Colorize.format("[ "+getActiveAbility().getDisplayName()+" ]"));
+        if(!abilities.isEmpty()){
+            Bukkit.getPlayer(getOwner()).sendActionBar(Colorize.format("&l[ "+getActiveAbility().getDisplayName()+" &r&l]"));
+        }
     }
     public void deleteStaff(){
         //plugin.deleteRing(ringID);
@@ -125,4 +136,5 @@ public class Staff {
     public boolean isLost(){
         return staffState == StaffState.LOST;
     }
+    public void removeAbilities(){abilities.clear();}
 }
