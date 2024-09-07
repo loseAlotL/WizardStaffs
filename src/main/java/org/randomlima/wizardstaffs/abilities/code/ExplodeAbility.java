@@ -1,7 +1,5 @@
 package org.randomlima.wizardstaffs.abilities.code;
 
-import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -10,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.abilities.AbilitySuper;
-import org.randomlima.wizardstaffs.abilities.CooldownManager;
+import org.randomlima.wizardstaffs.abilities.abilityutil.CooldownManager;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.objects.StaffState;
 import org.randomlima.wizardstaffs.utilities.DataParser;
@@ -30,7 +28,7 @@ public class ExplodeAbility extends AbilitySuper {
         super(plugin, staff, runeItem, abilityName);
         this.plugin = plugin;
         dataParser = new DataParser();
-        particleUtil = new ParticleUtil();
+        particleUtil = new ParticleUtil(plugin);
         this.runeItem = runeItem;
         try{
             this.power = Integer.parseInt(dataParser.getStringData(runeItem,"power"));

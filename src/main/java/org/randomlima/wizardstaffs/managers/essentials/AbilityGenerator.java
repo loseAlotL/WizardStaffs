@@ -6,9 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.units.qual.A;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.abilities.Ability;
-import org.randomlima.wizardstaffs.abilities.code.BoostAbility;
-import org.randomlima.wizardstaffs.abilities.code.ExplodeAbility;
-import org.randomlima.wizardstaffs.abilities.code.ShieldAbility;
+import org.randomlima.wizardstaffs.abilities.code.*;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.utilities.DataParser;
 
@@ -36,6 +34,12 @@ public class AbilityGenerator {
                         break;
                     case "EXPLODE":
                         abilities.add(new ExplodeAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
+                    case "FIREWALL":
+                        abilities.add(new FirewallAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
+                        break;
+                    case "POTION":
+                        abilities.add(new PotionEffectAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
+                        break;
                 }
             }
 
