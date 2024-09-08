@@ -1,44 +1,42 @@
 package org.randomlima.wizardstaffs.abilities.code;
 
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.Item;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.randomlima.wizardstaffs.WizardStaffs;
 import org.randomlima.wizardstaffs.abilities.AbilitySuper;
 import org.randomlima.wizardstaffs.abilities.abilityutil.CooldownManager;
 import org.randomlima.wizardstaffs.objects.Staff;
 import org.randomlima.wizardstaffs.objects.StaffState;
-import org.randomlima.wizardstaffs.utilities.Colorize;
 import org.randomlima.wizardstaffs.utilities.DataParser;
 import org.randomlima.wizardstaffs.utilities.ParticleUtil;
 
-public class LaunchBurgerAbility extends AbilitySuper {
+public class ArrowBurstAbility extends AbilitySuper {
     private double velocity;
+    private double radius;
+    private int numArrows;
     private double cooldown;
     private boolean alwaysActive;
     private CooldownManager cooldownManager;
     private DataParser dataParser;
     private ParticleUtil particleUtil;
     private ItemStack runeItem;
-    private WizardStaffs plugin;
-    public LaunchBurgerAbility(WizardStaffs plugin, Staff staff, ItemStack runeItem, String abilityName){
+    public ArrowBurstAbility(WizardStaffs plugin, Staff staff, ItemStack runeItem, String abilityName){
         super(plugin, staff, runeItem, abilityName);
         dataParser = new DataParser();
         particleUtil = new ParticleUtil(plugin);
         this.runeItem = runeItem;
-        this.plugin = plugin;
         try{
             this.velocity = Double.parseDouble(dataParser.getStringData(runeItem,"velocity"));
+            this.numArrows = Integer.parseInt(dataParser.getStringData(runeItem, "arrow-count"));
+            this.radius = Double.parseDouble(dataParser.getStringData(runeItem, "radius"));
             this.cooldown = Double.parseDouble(dataParser.getStringData(runeItem,"cooldown"));
             this.alwaysActive = Boolean.parseBoolean(dataParser.getStringData(runeItem, "always-active"));
             this.cooldownManager = new CooldownManager(plugin, this, cooldown);
@@ -52,21 +50,21 @@ public class LaunchBurgerAbility extends AbilitySuper {
         if(!abilityCanBeUsed(event.getPlayer().getUniqueId(), runeItem))return;
         if(cooldownManager.checkAndStartCooldown())return;
         Player player = event.getPlayer();
-        ItemStack hamburger = new ItemStack(Material.COOKED_BEEF);
-        ItemMeta meta = hamburger.getItemMeta();
-        meta.setDisplayName(Colorize.format("&6Hamburger"));
-        meta.setCustomModelData(694);
-        hamburger.setItemMeta(meta);
-        Vector direction = player.getLocation().getDirection().normalize();
-        Item dropped = player.getWorld().dropItem(player.getEyeLocation(), hamburger);
-        Vector velocity = direction.multiply(this.velocity);
-        dropped.setVelocity(velocity);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.getWorld().createExplosion(dropped.getLocation(), 1);
-            }
-        }.runTaskLater(plugin, 10);
-    }
-}
+        shootArrows(player, radius, velocity, numArrows);
 
+    }
+    public void shootArrows(Player player, double radius, double velocity, int numArrows) {
+        Location playerLocation = player.getEyeLocation();
+        double angleIncrement = 360.0 / numArrows;
+        for (int i = 0; i < numArrows; i++) {
+            double angle = Math.toRadians(i * angleIncrement);
+            double xOffset = radius * Math.cos(angle);
+            double zOffset = radius * Math.sin(angle);
+            Location spawnLocation = playerLocation.clone().add(xOffset, 0.1, zOffset);
+            Arrow arrow = player.getWorld().spawn(spawnLocation, Arrow.class);
+            Vector direction = spawnLocation.toVector().subtract(playerLocation.toVector()).normalize();
+            arrow.setVelocity(direction.multiply(velocity));
+        }
+    }
+
+}

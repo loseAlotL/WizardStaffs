@@ -40,12 +40,6 @@ public class ExplodeAbility extends AbilitySuper {
             sendLoadError();
         }
     }
-    @Override
-    public void switchState(StaffState staffState){
-        if(staffState == StaffState.LOST){
-            HandlerList.unregisterAll(this);
-        }
-    }
     @EventHandler
     public void playerInteract(PlayerInteractEvent event){
         if(!event.getAction().isRightClick())return;

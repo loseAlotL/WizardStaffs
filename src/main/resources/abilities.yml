@@ -1,8 +1,12 @@
 version: 1.0
+# you can add new custom abilities if you wish, or edit them idc.
+# potion effects for 1.20.2 can be found here: https://helpch.at/docs/1.20.2/org/bukkit/potion/PotionEffectType.html
+# sounds can be found at: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
 abilities:
   shield-1:
     ability-type: SHIELD
     display-name: '&7&lShield'
+    always-active: truec
     damage-reduction: 10.0
     lore:
       - '&8Reduces damage taken by &710%'
@@ -12,6 +16,7 @@ abilities:
   shield-2:
     ability-type: SHIELD
     display-name: '&7&lShield'
+    always-active: true
     damage-reduction: 20.0
     lore:
       - '&8Reduces damage taken by &720%'
@@ -21,6 +26,7 @@ abilities:
   shield-3:
     ability-type: SHIELD
     display-name: '&7&lShield'
+    always-active: true
     damage-reduction: 30.0
     lore:
       - '&8Reduces damage taken by &730%'
@@ -30,6 +36,7 @@ abilities:
   shield-4:
     ability-type: SHIELD
     display-name: '&7&lShield'
+    always-active: true
     damage-reduction: 40.0
     lore:
       - '&8Reduces damage taken by &740%'
@@ -39,6 +46,7 @@ abilities:
   shield-5:
     ability-type: SHIELD
     display-name: '&7&lShield'
+    always-active: true
     damage-reduction: 50.0
     lore:
       - '&8Reduces damage taken by &750%'
@@ -48,6 +56,7 @@ abilities:
   shield-6:
     ability-type: SHIELD
     display-name: '&7&lShield'
+    always-active: true
     damage-reduction: 60.0
     lore:
       - '&8Reduces damage taken by &760%'
@@ -57,6 +66,7 @@ abilities:
   shield-7:
     ability-type: SHIELD
     display-name: '&7&lShield'
+    always-active: true
     damage-reduction: 70.0
     lore:
       - '&8Reduces damage taken by &770%'
@@ -66,7 +76,81 @@ abilities:
   boost-1:
     ability-type: BOOST
     display-name: '&7&lBoost'
+    always-active: false
     velocity: 2.0
+    cooldown: 5.0
+    lore:
+      - '&8Boost forward!'
+      - '&fLevel 1'
+      - ''
+      - '&b&lDIVINE &r&dRUNE'
+  boost-2:
+    ability-type: BOOST
+    display-name: '&7&lBoost'
+    always-active: true
+    velocity: 3.0
+    cooldown: 3.0
+    lore:
+      - '&8Boost forward!'
+      - '&fLevel 2'
+      - ''
+      - '&b&lDIVINE &r&dRUNE'
+  explode-1:
+    ability-type: EXPLODE
+    display-name: '&7&lExplode'
+    always-active: false
+    power: 3
+    timer: 0
+    cooldown: 5.0
+    lore:
+      - '&8Explode yourself...'
+      - '&fLevel 1'
+      - ''
+      - '&b&lDIVINE &r&dRUNE'
+  explode-2:
+    ability-type: EXPLODE
+    display-name: '&7&lExplode'
+    always-active: true
+    power: 3
+    timer: 1
+    cooldown: 5.0
+    lore:
+      - '&8Explode yourself...'
+      - '&fLevel 2'
+      - ''
+      - '&b&lDIVINE &r&dRUNE'
+  hamburger-1:
+    ability-type: HAMBURGER
+    display-name: '&6&lHAMBURGER'
+    always-active: false
+    velocity: 2.0
+    cooldown: 0
+    lore:
+      - '&8SHOOT HAMBURGERS!'
+      - '&fLevel &lINFINITE'
+      - ''
+      - '&b&6&lHAMBURGER &r&dRUNE'
+  fire-whip-1:
+    ability-type: WHIP
+    display-name: '&7&lFire Whip'
+    always-active: false
+    curve-height: 2.0
+    particle: FLAME
+    damage: 3
+    fire-ticks: 40
+    cooldown: 0.5
+    lore:
+      - '&8Whip!'
+      - '&fLevel 4'
+      - ''
+      - '&b&lDIVINE &r&dRUNE'
+  arrow-1:
+    ability-type: ARROWBURST
+    display-name: '&7&lArrow Burst'
+    always-active: false
+    velocity: 2.0
+    radius: 1
+    arrow-count: 10
     cooldown: 5.0
     lore:
       - '&8Boost forward!'

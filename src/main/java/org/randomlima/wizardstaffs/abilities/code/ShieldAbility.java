@@ -37,12 +37,6 @@ public class ShieldAbility extends AbilitySuper {
             sendLoadError();
         }
     }
-    @Override
-    public void switchState(StaffState staffState){
-        if(staffState == StaffState.LOST){
-            HandlerList.unregisterAll(this);
-        }
-    }
     @EventHandler
     public void playerInteract(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player))return;

@@ -34,11 +34,18 @@ public class AbilityGenerator {
                         break;
                     case "EXPLODE":
                         abilities.add(new ExplodeAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
-                    case "POTION":
-                        abilities.add(new PotionEffectAbility(plugin, staff, item, dataParser.getStringData(item, "display-name")));
                         break;
                     case "HAMBURGER":
                         abilities.add(new LaunchBurgerAbility(plugin,staff,item,dataParser.getStringData(item,"display-name")));
+                        break;
+                    case "WHIP":
+                        abilities.add(new WhipAbility(plugin,staff,item,dataParser.getStringData(item,"display-name")));
+                        break;
+                    case "ARROWBURST":
+                        abilities.add(new ArrowBurstAbility(plugin,staff,item,dataParser.getStringData(item, "display-name")));
+                        break;
+                    case "RUNE":
+                        abilities.add(new RuneAbility(plugin,staff,item,dataParser.getStringData(item,"display-name")));
                         break;
                 }
             }

@@ -6,6 +6,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.randomlima.wizardstaffs.WizardStaffs;
 
+import java.util.ArrayList;
+
 public class ParticleUtil {
     private WizardStaffs plugin;
     public ParticleUtil(WizardStaffs plugin){
@@ -23,6 +25,21 @@ public class ParticleUtil {
             Location point = loc1.clone().add(step.clone().multiply(i));
             loc1.getWorld().spawnParticle(particle, point, 0);
         }
+    }
+    public ArrayList<Location> linePoints(Location loc1, Location loc2, int density) {
+        ArrayList<Location> locations = new ArrayList<>();
+        double distance = loc1.distance(loc2);
+        Vector vector = loc2.toVector().subtract(loc1.toVector()).normalize();
+
+        int numParticles = (int) (distance * density);
+        double increment = distance / numParticles;
+        Vector step = vector.multiply(increment);
+
+        for (int i = 0; i <= numParticles; i++) {
+            Location point = loc1.clone().add(step.clone().multiply(i));
+            locations.add(point);
+        }
+        return locations;
     }
     public void circle(Location center, double radius, Particle particle, int density) {
         double angleIncrement = 2 * Math.PI / density;

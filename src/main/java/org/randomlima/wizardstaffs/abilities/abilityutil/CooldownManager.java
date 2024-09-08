@@ -42,8 +42,7 @@ public class CooldownManager {
     }
 
     public boolean isOnCooldown() {
-        if (cooldownLeft > 0)
-            owner.sendMessage(Colorize.format(Msg.abilityCooldownMessage(ability.getDisplayName(), getCooldownLeftInt())));
+        //if (cooldownLeft > 0)owner.sendMessage(Colorize.format(Msg.abilityCooldownMessage(ability.getDisplayName(), getCooldownLeftInt())));
         return cooldownLeft > 0;
     }
 
